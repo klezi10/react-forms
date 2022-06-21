@@ -10,7 +10,7 @@ const SimpleInput = (props) => {
     const enteredValue = nameInputRef.current.value;
     console.log(enteredValue);
     nameInputRef.current.value = ''
-    //not ideal to manipulate the DOM this way
+    //not good to manipulate the DOM this way
   }
 
   return (
