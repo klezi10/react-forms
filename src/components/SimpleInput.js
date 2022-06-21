@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+//can use useState to validate on each keystroke
+
 const SimpleInput = (props) => {
   const [name, setName] = useState('')
 
@@ -10,6 +12,7 @@ const SimpleInput = (props) => {
   function handleSubmit(event) {
     event.preventDefault()
     console.log(name)
+    setName('')
   }
 
   return (
