@@ -13,7 +13,7 @@ const SimpleInput = (props) => {
     setName(event.target.value);
   }
 
-  //add onBlur to have a function on what to do when a user touches the form
+  //add onBlur (lost focus) to have a function on what to do when a user touches the form
   //but doesn't enter anything, and clicks outside the form
   //should give the invalid message
 
