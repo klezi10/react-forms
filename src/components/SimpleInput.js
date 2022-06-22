@@ -1,42 +1,63 @@
 import { useState } from "react";
 
-//can use useState to validate on each keystroke
-
 const SimpleInput = (props) => {
   const [name, setName] = useState("");
-  // const [nameIsValid, setNameIsValid] = useState(false); removed using state for nameIsValid to make it a variable instead
-  //this way, one less state to manage
   const [nameIsTouched, setNameIsTouched] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailIsTouched, setEmailIsTouched] = useState(false);
 
   const nameIsValid = name.trim() !== "";
-  //create a new variable containing 2 variables
   const nameIsInvalid = !nameIsValid && nameIsTouched;
 
-  function handleChange(event) {
+  let regex = /^\S+@\S+\.\S+$/;
+  const emailCheck = regex.test(email) === true
+
+  const emailIsValid = email.trim() !== "" && emailCheck;
+  const emailIsInvalid = !emailIsValid && emailIsTouched;
+
+  let formIsValid = false;
+
+  if (nameIsValid && emailIsValid) {
+    formIsValid = true;
+  }
+
+  function handleNameChange(event) {
     setName(event.target.value);
   }
 
-  //add onBlur (lost focus) to have a function on what to do when a user touches the form
-  //but doesn't enter anything, and clicks outside the form
-  //should give the invalid message
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
 
   function nameInputBlurHandler() {
     setNameIsTouched(true);
   }
 
+  function emailInputBlurHandler() {
+    setEmailIsTouched(true);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     setNameIsTouched(true);
+    setEmailIsTouched(true);
 
-    if (!nameIsValid) {
+    if (!nameIsValid || !emailIsValid) {
       return;
     }
-    console.log(name);
+
+    console.log(name, email);
     setName("");
-    setNameIsTouched(false)
+    setEmail("");
+    setNameIsTouched(false);
+    setEmailIsTouched(false);
   }
 
   const nameInputClass = nameIsInvalid
+    ? "form-control invalid"
+    : "form-control";
+
+  const emailInputClass = emailIsInvalid
     ? "form-control invalid"
     : "form-control";
 
@@ -47,14 +68,27 @@ const SimpleInput = (props) => {
         <input
           type="text"
           id="name"
-          onChange={handleChange}
+          onChange={handleNameChange}
           value={name}
           onBlur={nameInputBlurHandler}
         />
         {nameIsInvalid && <p className="error-text">Name must not be empty.</p>}
       </div>
+      <div className={emailInputClass}>
+        <label htmlFor="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          onChange={handleEmailChange}
+          value={email}
+          onBlur={emailInputBlurHandler}
+        />
+        {emailIsInvalid && (
+          <p className="error-text">Email must not be empty.</p>
+        )}
+      </div>
       <div className="form-actions">
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
