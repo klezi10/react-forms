@@ -15,7 +15,7 @@ const SimpleInput = (props) => {
     //after error message, user types in the form again
     //using event.target.value instead of name variable cause react won't be able to read it that quickly
     //and we'd be using the old value
-    if (name.trim() !== "") {
+    if (event.target.value.trim() !== "") {
       setNameIsValid(true);
     }
   }
