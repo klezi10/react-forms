@@ -4,20 +4,16 @@ import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [name, setName] = useState("");
-  const [nameIsValid, setNameIsValid] = useState(false);
-  //not right starting with nameIsValid set to true as it's not true,
-  //so adding a new state confirming if a user wrote in the input already or not
+  // const [nameIsValid, setNameIsValid] = useState(false); removed using state for nameIsValid to make it a variable instead
+  //this way, one less state to manage
   const [nameIsTouched, setNameIsTouched] = useState(false);
+
+  const nameIsValid = name.trim() !== "";
+  //create a new variable containing 2 variables
+  const nameIsInvalid = !nameIsValid && nameIsTouched;
 
   function handleChange(event) {
     setName(event.target.value);
-
-    //after error message, user types in the form again
-    //using event.target.value instead of name variable cause react won't be able to read it that quickly
-    //and we'd be using the old value
-    if (event.target.value.trim() !== "") {
-      setNameIsValid(true);
-    }
   }
 
   //add onBlur (lost focus) to have a function on what to do when a user touches the form
@@ -26,26 +22,19 @@ const SimpleInput = (props) => {
 
   function nameInputBlurHandler() {
     setNameIsTouched(true);
-    if (name.trim() === "") {
-      setNameIsValid(false);
-    }
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     setNameIsTouched(true);
 
-    if (name.trim() === "") {
-      setNameIsValid(false);
+    if (!nameIsValid) {
       return;
     }
-    setNameIsValid(true);
     console.log(name);
     setName("");
+    setNameIsTouched(false)
   }
-
-  //create a new variable containing 2 variables
-  const nameIsInvalid = !nameIsValid && nameIsTouched;
 
   const nameInputClass = nameIsInvalid
     ? "form-control invalid"
