@@ -11,6 +11,13 @@ const SimpleInput = (props) => {
 
   function handleChange(event) {
     setName(event.target.value);
+
+    //after error message, user types in the form again
+    //using event.target.value instead of name variable cause react won't be able to read it that quickly
+    //and we'd be using the old value
+    if (name.trim() !== "") {
+      setNameIsValid(true);
+    }
   }
 
   //add onBlur (lost focus) to have a function on what to do when a user touches the form
@@ -21,7 +28,6 @@ const SimpleInput = (props) => {
     setNameIsTouched(true);
     if (name.trim() === "") {
       setNameIsValid(false);
-      return;
     }
   }
 
