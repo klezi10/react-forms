@@ -37,7 +37,6 @@ const SimpleInput = (props) => {
 
     if (name.trim() === "") {
       setNameIsValid(false);
-      return;
     }
     setNameIsValid(true);
     console.log(name);
